@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de Precificação — Impressão 3D no Japão (¥)</title>
+<meta name="description" content="Calculadora gratuita de custo e preço para impressão 3D no Japão. Material, depreciação da máquina, energia, mão de obra, falha, frete e imposto — em iene. Sem cadastro.">
+<meta name="robots" content="index,follow">
+<meta property="og:title" content="Calculadora de Precificação — Impressão 3D no Japão">
+<meta property="og:description" content="Quanto custa de verdade a peça que você imprime? Calcule em iene, com depreciação, falha e mão de obra.">
+<meta property="og:type" content="website">
+<style>
+  :root{
+    --bg:#0b1220; --card:#0f1829; --card2:#131f33; --line:#243247;
+    --txt:#f8fafc; --dim:#94a3b8; --dim2:#64748b;
+    --accent:#38bdf8; --ok:#4ade80; --warn:#fbbf24; --bad:#f87171;
+    --mono:ui-monospace,"Cascadia Mono",Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--bg);color:var(--txt);
+    font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  }
+  header{padding:28px 20px 18px;border-bottom:1px solid var(--line)}
+  header .inner{max-width:1100px;margin:0 auto}
+  h1{margin:0 0 6px;font-size:24px;letter-spacing:.2px;line-height:1.25}
+  .sub{margin:0;color:var(--dim);font-size:14px;max-width:62ch}
+  .wrap{max-width:1100px;margin:0 auto;padding:22px 20px 80px;display:grid;gap:20px}
+  @media(min-width:900px){.cols{display:grid;grid-template-columns:1fr 380px;gap:22px;align-items:start}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px}
+  .card h2{margin:0 0 14px;font-size:13px;text-transform:uppercase;letter-spacing:.8px;color:var(--accent)}
+  .row{display:grid;grid-template-columns:1fr 130px;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid rgba(36,50,71,.5)}
+  .row:last-child{border-bottom:0}
+  .row label{font-size:14px;color:var(--dim)}
+  .row label b{color:var(--txt);font-weight:600;display:block;font-size:14.5px}
+  .row label i{font-style:normal;font-size:12px;color:var(--dim2);display:block;margin-top:2px}
+  input[type=number]{
+    width:100%;background:var(--card2);border:1px solid var(--line);border-radius:8px;
+    color:var(--txt);font:15px var(--mono);padding:9px 10px;text-align:right;
+  }
+  input[type=number]:focus{outline:2px solid var(--accent);outline-offset:-1px}
+  .out{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:18px}
+  .out.sticky{position:sticky;top:16px}
+  .line{display:flex;justify-content:space-between;gap:12px;padding:6px 0;font-size:14px;color:var(--dim)}
+  .line b{color:var(--txt);font-family:var(--mono);font-weight:600}
+  .total{border-top:1px solid var(--line);margin-top:8px;padding-top:12px}
+  .total .line{font-size:15px}
+  .big{font-size:22px!important;color:var(--ok)!important}
+  .big.piso{color:var(--warn)!important}
+  .note{font-size:12.5px;color:var(--dim2);line-height:1.5;margin-top:12px}
+  .cta{background:linear-gradient(180deg,#0f1829,#131f33);border:1px solid var(--line);border-radius:14px;padding:18px;margin-top:16px}
+  .cta h3{margin:0 0 8px;font-size:16px}
+  .cta p{margin:0 0 12px;font-size:14px;color:var(--dim)}
+  .cta a{display:block;text-decoration:none;padding:11px 14px;border-radius:9px;font-weight:600;font-size:14.5px;text-align:center;margin-bottom:9px}
+  .cta a.p{background:var(--accent);color:#06101f}
+  .cta a.s{background:transparent;border:1px solid var(--line);color:var(--txt)}
+  .badge{display:inline-block;font-size:12px;color:var(--ok);border:1px solid var(--ok);border-radius:999px;padding:2px 10px;margin-bottom:10px}
+  footer{border-top:1px solid var(--line);padding:22px 20px;color:var(--dim2);font-size:13px}
+  footer .inner{max-width:1100px;margin:0 auto}
+  .hide{display:none}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="inner">
+    <span class="badge">GRÁTIS · SEM CADASTRO · FUNCIONA OFFLINE</span>
+    <h1>Calculadora de Precificação — Impressão 3D no Japão</h1>
+    <p class="sub">Quanto custa de verdade a peça que você imprime? Preencha os campos e veja o custo real, o preço mínimo e o preço sugerido — em iene. Os valores já vêm com um exemplo real medido no fatiador; troque pelos seus.</p>
+  </div>
+</header>
+
+<div class="wrap">
+ <div class="cols">
+
+  <div>
+    <div class="card">
+      <h2>1 · Material</h2>
+      <div class="row"><label><b>Peso da peça</b><i>Total do fatiador, incluindo suporte</i></label><input type="number" id="peso" value="24.36" step="0.01" min="0"></div>
+      <div class="row"><label><b>Preço do filamento (¥/kg)</b><i>Use o topo da sua faixa, não o melhor preço</i></label><input type="number" id="filamento" value="2500" step="10" min="0"></div>
+      <div class="row"><label><b>Taxa de falha (%)</b><i>Conte as últimas 20 impressões</i></label><input type="number" id="falha" value="15" step="0.5" min="0" max="90"></div>
+    </div>
+
+    <div class="card">
+      <h2>2 · Máquina</h2>
+      <div class="row"><label><b>Tempo de impressão (horas)</b><i>2h37m = 2,62 (minutos ÷ 60)</i></label><input type="number" id="tempo" value="2.62" step="0.01" min="0"></div>
+      <div class="row"><label><b>Preço da impressora (¥)</b><i>O que você pagou</i></label><input type="number" id="impressora" value="68800" step="100" min="1"></div>
+      <div class="row"><label><b>Vida útil (horas)</b><i>4.000 h é conservador</i></label><input type="number" id="vida" value="4000" step="100" min="1"></div>
+      <div class="row"><label><b>Manutenção (¥/mês)</b><i>Bico, PTFE, placa PEI</i></label><input type="number" id="manut" value="700" step="50" min="0"></div>
+      <div class="row"><label><b>Horas impressas por mês</b><i>Máquina parada é máquina caríssima</i></label><input type="number" id="horasmes" value="100" step="10" min="1"></div>
+    </div>
+
+    <div class="card">
+      <h2>3 · Energia</h2>
+      <div class="row"><label><b>Consumo da impressora (W)</b><i>A1 ≈ 120–150 W · A1 mini ≈ 100 W medido</i></label><input type="number" id="watts" value="150" step="10" min="1"></div>
+      <div class="row"><label><b>Tarifa (¥/kWh)</b><i>TEPCO: 1ª faixa ¥29,80 · 3ª ¥40,49 + encargos</i></label><input type="number" id="tarifa" value="32" step="0.1" min="1"></div>
+    </div>
+
+    <div class="card">
+      <h2>4 · Seu trabalho</h2>
+      <div class="row"><label><b>Tempo de manuseio (min)</b><i>Fatiar, trocar placa, montar, embalar, fotografar, anunciar</i></label><input type="number" id="minutos" value="20" step="1" min="0"></div>
+      <div class="row"><label><b>Seu valor por hora (¥)</b><i>Em ¥0 a peça parece lucrativa e você trabalhou de graça</i></label><input type="number" id="hora" value="1000" step="100" min="0"></div>
+    </div>
+
+    <div class="card">
+      <h2>5 · Venda</h2>
+      <div class="row"><label><b>Embalagem por peça (¥)</b><i>Saco, caixa, fita, bilhete</i></label><input type="number" id="embalagem" value="100" step="10" min="0"></div>
+      <div class="row"><label><b>Comissão da plataforma (%)</b><i>Mercari e Yahoo!フリマ ≈ 10%</i></label><input type="number" id="comissao" value="10" step="0.5" min="0" max="60"></div>
+      <div class="row"><label><b>Imposto sobre a venda (%)</b><i>免税事業者 (menzei jigyōsha — isento): deixe 0</i></label><input type="number" id="imposto" value="0" step="0.5" min="0" max="60"></div>
+      <div class="row"><label><b>Margem desejada (%)</b><i>Margem é o que sobra DO PREÇO, não um acréscimo sobre o custo</i></label><input type="number" id="margem" value="40" step="1" min="0" max="90"></div>
+      <div class="row"><label><b>Arredondar para cima (¥)</b><i>Iene não tem centavo</i></label><input type="number" id="arred" value="10" step="10" min="1"></div>
+    </div>
+  </div>
+
+  <div>
+    <div class="out sticky">
+      <h2 style="margin:0 0 12px;font-size:13px;text-transform:uppercase;letter-spacing:.8px;color:var(--accent)">Resultado</h2>
+
+      <div class="line"><span>Material (com falha)</span><b id="o_mat">—</b></div>
+      <div class="line"><span>Máquina (depreciação + manutenção)</span><b id="o_maq">—</b></div>
+      <div class="line"><span>Energia</span><b id="o_ene">—</b></div>
+      <div class="line"><span>Seu trabalho</span><b id="o_tra">—</b></div>
+      <div class="line"><span>Embalagem</span><b id="o_emb">—</b></div>
+      <div class="line"><span>Comissão + imposto</span><b id="o_com">—</b></div>
+
+      <div class="total">
+        <div class="line"><span>Custo total</span><b id="o_custo">—</b></div>
+        <div class="line"><span>Preço mínimo (lucro zero)</span><b id="o_piso">—</b></div>
+        <div class="line"><span><b style="color:var(--txt)">Preço sugerido</b></span><b class="big" id="o_preco">—</b></div>
+        <div class="line"><span>Margem real nesse preço</span><b id="o_marg">—</b></div>
+        <div class="line"><span>Desconto máximo</span><b id="o_desc">—</b></div>
+      </div>
+
+      <p class="note">A taxa de falha incide sobre <b>material e tempo de máquina</b> — não sobre o seu trabalho nem sobre a embalagem, que não se perdem quando uma impressão dá errado.</p>
+      <p class="note">Fórmula: <span style="font-family:var(--mono);color:var(--txt)">preço = custo ÷ (1 − margem − comissão − imposto)</span></p>
+      <p class="note" id="o_frac"></p>
+    </div>
+
+    <div class="cta">
+      <h3>Isto te ajudou?</h3>
+      <p>Este cálculo vem de um guia completo sobre custos de impressão 3D no Japão — com preço de filamento verificado loja por loja, tabela da Yamato, imposto e a depreciação destrinchada.</p>
+      <a class="p" href="https://ko-fi.com/s/ee352d758c" target="_blank" rel="noopener">Ver o kit e a planilha completa</a>
+      <a class="s" href="https://ko-fi.com/s/bf6c8da10f" target="_blank" rel="noopener">Baixar a planilha grátis (sem cadastro)</a>
+    </div>
+  </div>
+
+ </div>
+</div>
+
+<footer>
+  <div class="inner">
+    <p>Ferramenta gratuita. Os valores de exemplo são de um negócio real no Japão e servem apenas como ponto de partida — troque pelos seus.</p>
+    <p>Não é consultoria tributária. Confirme a sua situação com um 税理士 (zeirishi — contador fiscal habilitado).</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var ids = ["peso","filamento","falha","tempo","impressora","vida","manut","horasmes",
+             "watts","tarifa","minutos","hora","embalagem","comissao","imposto","margem","arred"];
+  var el = {};
+  ids.forEach(function(i){ el[i] = document.getElementById(i); });
+
+  function n(i){ var v = parseFloat(el[i].value); return isFinite(v) ? v : 0; }
+  function yen(v){ return "¥" + Math.round(v).toLocaleString("ja-JP"); }
+
+  function calc(){
+    var falha = n("falha")/100;
+
+    // material
+    var material = (n("peso")/1000) * n("filamento");
+    var materialF = material * (1 + falha);
+
+    // maquina: depreciacao + manutencao diluida nas horas do mes
+    var depHora = n("impressora") / Math.max(1, n("vida"));
+    var manutHora = n("manut") / Math.max(1, n("horasmes"));
+    var maquina = n("tempo") * (depHora + manutHora);
+    var maquinaF = maquina * (1 + falha);
+
+    // energia
+    var energia = n("tempo") * (n("watts")/1000) * n("tarifa");
+    var energiaF = energia * (1 + falha);
+
+    // trabalho e embalagem — nao recebem falha
+    var trabalho = (n("minutos")/60) * n("hora");
+    var embalagem = n("embalagem");
+
+    var custo = materialF + maquinaF + energiaF + trabalho + embalagem;
+
+    var com = Math.min(0.9, n("comissao")/100);
+    var imp = Math.min(0.9, n("imposto")/100);
+    var mar = Math.min(0.9, n("margem")/100);
+
+    var denPiso = 1 - com - imp;
+    var piso = denPiso > 0 ? custo / denPiso : NaN;
+
+    var den = 1 - mar - com - imp;
+    var bruto = den > 0 ? custo / den : NaN;
+    var passo = Math.max(1, n("arred"));
+    var preco = isFinite(bruto) ? Math.ceil(bruto/passo)*passo : NaN;
+
+    var comissaoYen = isFinite(preco) ? preco * (com + imp) : NaN;
+
+    var out = {
+      o_mat: yen(materialF), o_maq: yen(maquinaF), o_ene: yen(energiaF),
+      o_tra: yen(trabalho), o_emb: yen(embalagem), o_custo: yen(custo)
+    };
+    Object.keys(out).forEach(function(k){ document.getElementById(k).textContent = out[k]; });
+
+    var pisoEl = document.getElementById("o_piso");
+    pisoEl.textContent = isFinite(piso) ? yen(Math.ceil(piso/passo)*passo) : "—";
+
+    var precoEl = document.getElementById("o_preco");
+    precoEl.textContent = isFinite(preco) ? yen(preco) : "—";
+    precoEl.className = "big" + (isFinite(preco) ? "" : " piso");
+
+    document.getElementById("o_com").textContent = isFinite(comissaoYen) ? yen(comissaoYen) : "—";
+
+    var marg = isFinite(preco) && preco > 0 ? (preco*(1-com-imp) - custo)/preco : NaN;
+    document.getElementById("o_marg").textContent = isFinite(marg) ? (marg*100).toFixed(1) + "%" : "—";
+
+    var desc = (isFinite(preco) && isFinite(piso)) ? preco - Math.ceil(piso/passo)*passo : NaN;
+    document.getElementById("o_desc").textContent = isFinite(desc) ? yen(desc) : "—";
+
+    // se o denominador estourou, explica em vez de mostrar travessao
+    var frac = document.getElementById("o_frac");
+    if (!(den > 0)) {
+      frac.textContent = "⚠️ Margem + comissão + imposto passam de 100%. Não existe preço que feche essa conta — reduza a margem ou as taxas.";
+    } else if (trabalho/custo > 0.45) {
+      frac.textContent = "💡 Seu trabalho é " + Math.round(trabalho/custo*100) + "% do custo. É o item que quase ninguém coloca na conta.";
+    } else {
+      frac.textContent = "";
+    }
+  }
+
+  ids.forEach(function(i){ el[i].addEventListener("input", calc); });
+  calc();
+})();
+</script>
+</body>
+</html>
