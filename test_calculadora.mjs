@@ -155,6 +155,9 @@ checkTrue("sem requisição externa de CSS/JS",
   !/@import|url\(\s*["']?https?:/i.test(html));
 checkTrue("tem seção de fontes", html.includes("Fontes dos números desta página"));
 checkTrue("tem canonical", html.includes('rel="canonical"'));
+// o CTA já foi parar embaixo do painel sticky uma vez: ele tem que ficar FORA da grade
+checkTrue("CTA em banda própria, fora da coluna do resultado",
+  html.includes('class="cta band"') && html.includes('class="aside"') && !html.includes('<div class="cta">'));
 checkTrue("aponta para os 4 guias",
   ["taxas-de-venda","frete-de-peca-impressa","depreciacao-da-impressora","filamento-no-japao"]
     .every((s) => html.includes(`guia/${s}.html`)));

@@ -50,6 +50,12 @@
   }
   .out{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:18px}
   .out.sticky{position:sticky;top:16px}
+  /* A coluna do resultado se estica até o fim da grade — é isso que dá ao sticky
+     espaço para deslizar sem cobrir o que vem depois. O CTA fica FORA da grade. */
+  .cols > .aside{align-self:stretch}
+  /* em tela baixa o painel fica mais alto que a janela: rola por dentro em vez de cortar */
+  @media(min-width:900px){.out.sticky{max-height:calc(100vh - 32px);overflow:auto;scrollbar-width:thin}}
+  @media(max-width:899px){.out.sticky{position:static}}
   .line{display:flex;justify-content:space-between;gap:12px;padding:6px 0;font-size:14px;color:var(--dim)}
   .line b{color:var(--txt);font-family:var(--mono);font-weight:600}
   .total{border-top:1px solid var(--line);margin-top:8px;padding-top:12px}
@@ -66,6 +72,13 @@
   .cta a{display:block;text-decoration:none;padding:11px 14px;border-radius:9px;font-weight:600;font-size:14.5px;text-align:center;margin-bottom:9px}
   .cta a.p{background:var(--accent);color:#06101f}
   .cta a.s{background:transparent;border:1px solid var(--line);color:var(--txt)}
+  .cta.band{display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between;margin-top:20px}
+  .cta.band .txt{flex:1 1 340px;min-width:0}
+  .cta.band .txt h3{margin:0 0 6px}
+  .cta.band .txt p{margin:0}
+  .cta.band .acoes{display:flex;gap:9px;flex-wrap:wrap;flex:1 1 auto;justify-content:flex-end}
+  .cta.band .acoes a{display:inline-block;margin:0;padding:10px 16px;white-space:nowrap}
+  @media(max-width:700px){.cta.band .acoes{justify-content:stretch}.cta.band .acoes a{flex:1 1 100%}}
   .badge{display:inline-block;font-size:12px;color:var(--ok);border:1px solid var(--ok);border-radius:999px;padding:2px 10px;margin-bottom:10px}
   footer{border-top:1px solid var(--line);padding:22px 20px;color:var(--dim2);font-size:13px}
   footer .inner{max-width:1100px;margin:0 auto}
@@ -168,7 +181,7 @@
     </div>
   </div>
 
-  <div>
+  <div class="aside">
     <div class="out sticky">
       <h2 style="margin:0 0 12px;font-size:13px;text-transform:uppercase;letter-spacing:.8px;color:var(--accent)">Resultado</h2>
 
@@ -193,15 +206,19 @@
       <p class="note">Fórmula: <span style="font-family:var(--mono);color:var(--txt)">preço = custo ÷ (1 − margem − comissão − imposto)</span></p>
       <p class="note" id="o_frac"></p>
     </div>
-
-    <div class="cta">
-      <h3>Isto te ajudou?</h3>
-      <p>Este cálculo vem de um guia completo sobre custos de impressão 3D no Japão — com preço de filamento verificado loja por loja, tabela da Yamato, imposto e a depreciação destrinchada.</p>
-      <a class="p" href="https://ko-fi.com/s/ee352d758c" target="_blank" rel="noopener">Ver o kit e a planilha completa</a>
-      <a class="s" href="https://ko-fi.com/s/bf6c8da10f" target="_blank" rel="noopener">Baixar a planilha grátis (sem cadastro)</a>
-    </div>
   </div>
 
+ </div>
+
+ <div class="cta band">
+   <div class="txt">
+     <h3>Isto te ajudou?</h3>
+     <p>Este cálculo vem de um guia completo sobre custos de impressão 3D no Japão — com preço de filamento verificado loja por loja, tabela da Yamato, imposto e a depreciação destrinchada.</p>
+   </div>
+   <div class="acoes">
+     <a class="p" href="https://ko-fi.com/s/ee352d758c" target="_blank" rel="noopener">Ver o kit e a planilha completa</a>
+     <a class="s" href="https://ko-fi.com/s/bf6c8da10f" target="_blank" rel="noopener">Baixar a planilha grátis (sem cadastro)</a>
+   </div>
  </div>
 
  <div class="links">
