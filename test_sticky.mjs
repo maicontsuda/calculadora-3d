@@ -1,10 +1,11 @@
 // Teste de navegador: o painel do resultado (position:sticky) não pode cobrir nada
 // ao rolar — em especial o bloco "Isto te ajudou?" (CTA).
 //
-//   node test_sticky.mjs
+//   node test_sticky.mjs                                    # testa o index.html local
+//   node test_sticky.mjs https://maicontsuda.github.io/calculadora-3d/   # testa o site no ar
 //
-// Sobe um Chrome headless próprio (porta aleatória, perfil temporário), carrega o
-// index.html local e mede, a cada 150 px de rolagem, os retângulos do painel e do CTA.
+// Sobe um Chrome headless próprio (porta aleatória, perfil temporário), carrega a
+// página e mede, a cada 150 px de rolagem, os retângulos do painel e do CTA.
 // Falha se houver sobreposição ou se o painel nunca prender no topo.
 //
 // Requer o Google Chrome instalado. Não precisa de servidor.
@@ -30,7 +31,10 @@ if (!chrome) {
   process.exit(2);
 }
 
-const alvo = "file:///" + resolve(import.meta.dirname, "index.html").replace(/\\/g, "/");
+const arg = process.argv[2];
+const alvo = arg
+  ? (/^https?:/i.test(arg) ? arg : "file:///" + resolve(arg).replace(/\\/g, "/"))
+  : "file:///" + resolve(import.meta.dirname, "index.html").replace(/\\/g, "/");
 const perfil = mkdtempSync(join(tmpdir(), "calc-sticky-"));
 const porta = 9300 + Math.floor(Math.random() * 500);
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
