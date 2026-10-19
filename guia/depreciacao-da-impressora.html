@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Depreciação da impressora 3D: o custo por hora que ninguém calcula</title>
+<meta name="description" content="Como calcular o custo real da máquina por hora: depreciação + manutenção diluída. Bambu Lab A1 Combo a ¥68.800 em 4.000 horas = ¥24,20/h. Com energia, ¥29/h.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://maicontsuda.github.io/calculadora-3d/guia/depreciacao-da-impressora.html">
+<meta property="og:title" content="Depreciação da impressora: o custo por hora">
+<meta property="og:description" content="A máquina parada é a mais cara de todas. Veja a conta que quase ninguém coloca na planilha.">
+<meta property="og:type" content="article">
+<link rel="stylesheet" href="../assets/estilo.css">
+</head>
+<body>
+
+<div class="topbar"><div class="inner">
+  <a href="../index.html">← Calculadora de precificação</a>
+  <span class="brand">custos de impressão 3D no Japão</span>
+</div></div>
+
+<main class="doc">
+  <p class="crumb"><a href="../index.html">Calculadora</a> · guia</p>
+  <h1>Depreciação da impressora: o custo por hora que ninguém calcula</h1>
+  <p class="lead">A impressora não é um equipamento: é um <strong>consumível de vida longa</strong>. Cada hora que ela imprime, uma fração do que você pagou por ela se transforma em custo — e quem não coloca isso no preço está pagando para trabalhar.</p>
+  <p class="meta">Atualizado em 19/10/2026 · leitura de 5 min · preços conferidos em 02/10/2026</p>
+
+  <h2>A conta, em duas linhas</h2>
+  <div class="formula">
+    custo/hora = (preço da máquina ÷ vida útil em horas)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ (manutenção por mês ÷ horas impressas por mês)
+  </div>
+  <p>São duas coisas diferentes somadas: a <strong>depreciação</strong> (o desgaste do que você pagou) e a <strong>manutenção</strong> (bico, tubo, placa — o que quebra e se troca).</p>
+
+  <h2>O caso real: Bambu Lab A1 Combo</h2>
+  <table>
+    <thead><tr><th>Item</th><th class="num">Valor</th><th class="num">Conta</th><th class="num">¥/hora</th></tr></thead>
+    <tbody>
+      <tr><td>Depreciação</td><td class="num">¥68.800</td><td class="num">÷ 4.000 h</td><td class="num"><strong>17,20</strong></td></tr>
+      <tr><td>Manutenção</td><td class="num">¥700/mês</td><td class="num">÷ 100 h/mês</td><td class="num"><strong>7,00</strong></td></tr>
+      <tr><td><strong>Custo da máquina</strong></td><td class="num"></td><td class="num"></td><td class="num"><strong>24,20</strong></td></tr>
+      <tr><td>Energia</td><td class="num">150 W × ¥32/kWh</td><td class="num">0,15 kW × 32</td><td class="num">4,80</td></tr>
+      <tr><td><strong>Total por hora</strong></td><td class="num"></td><td class="num"></td><td class="num"><strong>29,00</strong></td></tr>
+    </tbody>
+  </table>
+  <p>Uma peça de <strong>2h37m</strong> (2,62 h) custa <strong>¥75,98</strong> só de máquina e energia. Com a taxa de falha de 15% — que incide sobre material e tempo de máquina — vira <strong>¥87,38</strong>.</p>
+
+  <h3>De onde saem os ¥700/mês de manutenção</h3>
+  <table>
+    <thead><tr><th>Item</th><th class="num">Preço</th><th class="num">Vida útil</th><th class="num">¥/mês a 100 h</th></tr></thead>
+    <tbody>
+      <tr><td>Bico 0,4 mm</td><td class="num">¥300–2.000</td><td class="num">~1.000 h</td><td class="num">~100</td></tr>
+      <tr><td>Tubo PTFE (A1)</td><td class="num">¥1.980</td><td class="num">~1 ano</td><td class="num">~165</td></tr>
+      <tr><td>Placa PEI (consumível)</td><td class="num">~¥9.678</td><td class="num">~2 anos</td><td class="num">~400</td></tr>
+      <tr><td><strong>Total</strong></td><td class="num"></td><td class="num"></td><td class="num"><strong>~700</strong></td></tr>
+    </tbody>
+  </table>
+  <p>Repare que a <strong>placa PEI</strong> é o item mais caro da manutenção — e é consumível: a garantia não cobre o desgaste. Nunca limpe com acetona; cada limpeza errada encurta a vida dela.</p>
+
+  <h2>Por que a máquina parada é a mais cara</h2>
+  <p>A depreciação depende do <em>total</em> de horas, então é fixa por hora. A manutenção não: são ¥700 por <strong>mês</strong>, chova ou faça sol. Quanto menos você imprime, mais caro fica cada hora.</p>
+  <table>
+    <thead><tr><th>Horas impressas/mês</th><th class="num">Manutenção por hora</th><th class="num">Custo total da máquina</th></tr></thead>
+    <tbody>
+      <tr><td>100 h</td><td class="num">¥7,00</td><td class="num">¥24,20/h</td></tr>
+      <tr><td>50 h</td><td class="num">¥14,00</td><td class="num">¥31,20/h</td></tr>
+      <tr><td>25 h</td><td class="num">¥28,00</td><td class="num">¥45,20/h</td></tr>
+    </tbody>
+  </table>
+  <p class="src">Conta derivada: ¥700 ÷ horas do mês, somado a ¥17,20 de depreciação.</p>
+  <p>Imprimir 25 horas por mês quase <strong>dobra</strong> o custo da máquina por hora. É por isso que "máquina parada é máquina caríssima" não é força de expressão: é aritmética.</p>
+
+  <h2>Quanto custa a sua impressora</h2>
+  <p>Preços do Bambu Lab A1 no Japão, conferidos em 02/10/2026 nas lojas <a href="https://www.3dmart.co.jp/" target="_blank" rel="noopener">3DMart Japan</a>, <a href="https://skhonpo.com/" target="_blank" rel="noopener">SK本舗</a> e <a href="https://sunstella.co.jp/" target="_blank" rel="noopener">Sunstella</a>:</p>
+  <table>
+    <thead><tr><th>Modelo</th><th>Loja mais barata</th><th class="num">Preço</th><th class="num">¥/h (4.000 h)</th></tr></thead>
+    <tbody>
+      <tr><td>A1 (sem AMS)</td><td>3DMart Japan</td><td class="num">¥43.000</td><td class="num">10,75</td></tr>
+      <tr><td>A1 (sem AMS)</td><td>SK本舗 / Sunstella</td><td class="num">¥48.800</td><td class="num">12,20</td></tr>
+      <tr><td>A1 Combo (AMS lite)</td><td>3DMart Japan</td><td class="num">¥63.000</td><td class="num">15,75</td></tr>
+      <tr><td><strong>A1 Combo</strong></td><td>SK本舗 / Sunstella</td><td class="num"><strong>¥68.800</strong></td><td class="num"><strong>17,20</strong></td></tr>
+      <tr><td>A1 Combo (AMS 2 Pro)</td><td>3DMart</td><td class="num">¥83.000</td><td class="num">20,75</td></tr>
+    </tbody>
+  </table>
+  <p>Todas com <strong>garantia de 1 ano no Japão</strong>. A loja oficial da Bambu Lab dá frete grátis.</p>
+  <p>A diferença entre o modelo mais barato e o mais caro é de ¥10/h — em 2h37m de impressão, ¥26 de diferença. <strong>Escolher a máquina certa importa, mas não é o que decide o preço de uma peça.</strong> O que decide é quanto tempo a peça ocupa a máquina.</p>
+
+  <h2>O erro de comprar máquina pensando em "custo por peça"</h2>
+  <p>Uma máquina mais cara que imprime mais rápido pode sair mais barata por peça — mas a conta só fecha se você <strong>usar</strong> a velocidade. Se a peça leva o mesmo tempo, a máquina premium é custo puro.</p>
+  <p>E o inverso também vale: comprar máquina barata e usar 20 horas por mês coloca a manutenção em ¥35/h. <strong>A variável de controle não é a máquina; é a ocupação.</strong></p>
+
+  <div class="box warn">
+    <h3>Depreciação não é dinheiro que sai hoje</h3>
+    <p>Ela não aparece no extrato — mas aparece quando a máquina quebra e você precisa comprar outra. Quem precifica sem depreciação está consumindo o próprio capital e chamando isso de lucro.</p>
+    <p>Vida útil de 4.000 h é <strong>conservadora</strong> de propósito: se durar mais, você ganhou margem; se durar menos, não se enganou.</p>
+  </div>
+
+  <div class="cta">
+    <h3>Ponha a máquina na conta</h3>
+    <p>A calculadora usa exatamente esta fórmula e mostra quanto do custo da sua peça é depreciação, manutenção e energia.</p>
+    <a class="btn" href="../index.html">Abrir a calculadora grátis</a>
+  </div>
+
+  <div class="mais">
+    <h3>Leia também</h3>
+    <a href="taxas-de-venda.html">As taxas de venda no Japão, conferidas <span>minne 10,659% · Creema 10,67% · Yahoo!フリマ 5% · BOOTH 5,6% + ¥45</span></a>
+    <a href="frete-de-peca-impressa.html">Frete de peça impressa: por que ¥210 vira ¥520 <span>A regra do 3辺合計 e o limite de 3 cm do ネコポス</span></a>
+    <a href="filamento-no-japao.html">Quanto custa o filamento no Japão <span>Preços verificados loja por loja</span></a>
+  </div>
+
+  <footer>
+    <p>Preços de loja mudam. Confira a loja no dia da compra. Este guia não é consultoria contábil.</p>
+    <p>Atualizado em 19/10/2026.</p>
+  </footer>
+</main>
+</body>
+</html>

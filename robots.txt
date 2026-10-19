@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://maicontsuda.github.io/calculadora-3d/sitemap.xml
