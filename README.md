@@ -41,3 +41,14 @@ Roda o **próprio `<script>` do index.html** com um DOM simulado e confere:
 - a guarda do denominador (margem + comissão + imposto > 100% avisa em vez de mostrar preço);
 - arredondamento sempre para cima;
 - a página não faz requisição externa de CSS/JS e linka os quatro guias.
+
+## Teste de layout no navegador
+
+```
+node test_sticky.mjs                                    # index.html local
+node test_sticky.mjs https://maicontsuda.github.io/calculadora-3d/   # site no ar
+```
+
+Sobe um Chrome headless, rola a página a cada 150 px e mede o painel do resultado contra o
+bloco "Isto te ajudou?" em três tamanhos de tela. Existe porque o `position:sticky` do painel
+cobria o CTA — e para que esse bug não volte.
