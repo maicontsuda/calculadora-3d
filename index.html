@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Calculadora de Precificação — Impressão 3D no Japão (¥)</title>
-<meta name="description" content="Calculadora gratuita de custo e preço para impressão 3D no Japão. Material, depreciação da máquina, energia, mão de obra, falha, embalagem, frete, comissão da plataforma e imposto — em iene. Sem cadastro, funciona offline.">
+<title>Calculadora de Precificação — Impressão 3D no Japão, Brasil e EUA</title>
+<meta name="description" content="Calculadora gratuita de custo e preço para impressão 3D no Japão, Brasil e Estados Unidos. Material, depreciação da máquina, energia, mão de obra, falha, embalagem, frete, comissão da plataforma e imposto — em iene, real ou dólar. Sem cadastro, funciona offline.">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://maicontsuda.github.io/calculadora-3d/">
-<meta property="og:title" content="Calculadora de Precificação — Impressão 3D no Japão">
-<meta property="og:description" content="Quanto custa de verdade a peça que você imprime? Calcule em iene, com depreciação, falha, frete e mão de obra — e veja a fonte de cada taxa.">
+<meta property="og:title" content="Calculadora de Precificação — Impressão 3D (Japão, Brasil e EUA)">
+<meta property="og:description" content="Quanto custa de verdade a peça que você imprime? Calcule na moeda do seu país — com a fonte de cada taxa.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://maicontsuda.github.io/calculadora-3d/">
 <style>
@@ -28,7 +28,7 @@
   header .inner{max-width:1100px;margin:0 auto}
   h1{margin:0 0 6px;font-size:24px;letter-spacing:.2px;line-height:1.25}
   .sub{margin:0;color:var(--dim);font-size:14px;max-width:66ch}
-  .wrap{max-width:1100px;margin:0 auto;padding:22px 20px 80px;display:grid;gap:20px}
+  .wrap{max-width:1100px;margin:0 auto;padding:22px 20px 80px;display:grid;gap:20px;grid-template-columns:minmax(0,1fr)}
   @media(min-width:900px){.cols{display:grid;grid-template-columns:1fr 380px;gap:22px;align-items:start}}
   .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px}
   .card h2{margin:0 0 14px;font-size:13px;text-transform:uppercase;letter-spacing:.8px;color:var(--accent)}
@@ -53,7 +53,6 @@
   /* A coluna do resultado se estica até o fim da grade — é isso que dá ao sticky
      espaço para deslizar sem cobrir o que vem depois. O CTA fica FORA da grade. */
   .cols > .aside{align-self:stretch}
-  /* em tela baixa o painel fica mais alto que a janela: rola por dentro em vez de cortar */
   @media(min-width:900px){.out.sticky{max-height:calc(100vh - 32px);overflow:auto;scrollbar-width:thin}}
   @media(max-width:899px){.out.sticky{position:static}}
   .line{display:flex;justify-content:space-between;gap:12px;padding:6px 0;font-size:14px;color:var(--dim)}
@@ -84,6 +83,14 @@
   footer .inner{max-width:1100px;margin:0 auto}
   footer a{color:var(--dim)}
   .hide{display:none}
+  .link-inline{color:var(--accent);text-decoration:none}
+  .paises{display:flex;flex-wrap:wrap;gap:12px;align-items:center;background:var(--card);
+          border:1px solid var(--line);border-radius:14px;padding:14px 18px}
+  .paises label{font-size:12px;text-transform:uppercase;letter-spacing:.8px;color:var(--accent);font-weight:600}
+  .paises select{width:auto;min-width:220px;font-size:15px}
+  .paises .nota{font-size:12.5px;color:var(--dim2);flex:1 1 260px;min-width:0}
+  .paises .em-breve{font-size:12px;color:var(--dim2);border:1px dashed var(--line);border-radius:999px;padding:4px 10px}
+  @media(max-width:520px){.paises select{width:100%}.paises label{width:100%}}
   .links{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-top:20px}
   .links h2{margin:0 0 6px;font-size:13px;text-transform:uppercase;letter-spacing:.8px;color:var(--accent)}
   .links p{margin:0 0 10px;font-size:13.5px;color:var(--dim)}
@@ -94,6 +101,7 @@
   details summary{cursor:pointer;color:var(--accent);font-size:13px}
   details ul{margin:10px 0 0;padding-left:18px;line-height:1.7}
   details a{color:var(--dim)}
+  .tese{font-size:12.5px;color:var(--dim2);margin-top:8px}
 </style>
 </head>
 <body>
@@ -101,48 +109,60 @@
 <header>
   <div class="inner">
     <span class="badge">GRÁTIS · SEM CADASTRO · FUNCIONA OFFLINE</span>
-    <h1>Calculadora de Precificação — Impressão 3D no Japão</h1>
-    <p class="sub">Quanto custa de verdade a peça que você imprime? Preencha os campos e veja o custo real, o preço mínimo e o preço sugerido — em iene. Os valores já vêm com um exemplo real medido no fatiador; troque pelos seus. Cada taxa da plataforma tem a fonte na página.</p>
+    <h1>Calculadora de Precificação — Impressão 3D</h1>
+    <p class="sub">Japão, Brasil e Estados Unidos — cada país na sua moeda e com as suas regras. Quanto custa de verdade a peça que você imprime? Preencha os campos e veja o custo real, o preço mínimo e o preço sugerido. Troque os valores de exemplo pelos seus.</p>
   </div>
 </header>
 
 <div class="wrap">
+
+  <div class="paises">
+    <label for="pais">País</label>
+    <select id="pais">
+      <option value="jp">Japão (¥)</option>
+      <option value="br">Brasil (R$)</option>
+      <option value="us">Estados Unidos (US$)</option>
+    </select>
+    <span class="nota" id="pais_nota"></span>
+    <span class="em-breve">+ países em breve</span>
+  </div>
+
  <div class="cols">
 
   <div>
     <div class="card">
       <h2>1 · Material</h2>
       <div class="row"><label><b>Peso da peça</b><i>Total do fatiador, incluindo suporte</i></label><input type="number" id="peso" value="24.36" step="0.01" min="0"></div>
-      <div class="row"><label><b>Preço do filamento (¥/kg)</b><i>Use o topo da sua faixa, não o melhor preço</i></label><input type="number" id="filamento" value="2500" step="10" min="0"></div>
+      <div class="row"><label><b>Preço do filamento (<span class="cur">¥</span>/kg)</b><i id="hint_filamento">Use o topo da sua faixa, não o melhor preço</i></label><input type="number" id="filamento" value="2500" step="10" min="0"></div>
       <div class="row"><label><b>Taxa de falha (%)</b><i>Conte as últimas 20 impressões</i></label><input type="number" id="falha" value="15" step="0.5" min="0" max="90"></div>
     </div>
 
     <div class="card">
       <h2>2 · Máquina</h2>
-      <div class="row"><label><b>Tempo de impressão (horas)</b><i>2h37m = 2,62 (minutos ÷ 60)</i></label><input type="number" id="tempo" value="2.62" step="0.01" min="0"></div>
-      <div class="row"><label><b>Preço da impressora (¥)</b><i>O que você pagou</i></label><input type="number" id="impressora" value="68800" step="100" min="1"></div>
+      <div class="row"><label><b>Tempo de impressão (horas)</b><i id="hint_tempo">2h37m = 2,62 (minutos ÷ 60)</i></label><input type="number" id="tempo" value="2.62" step="0.01" min="0"></div>
+      <div class="row"><label><b>Preço da impressora (<span class="cur">¥</span>)</b><i>O que você pagou</i></label><input type="number" id="impressora" value="68800" step="100" min="1"></div>
       <div class="row"><label><b>Vida útil (horas)</b><i>4.000 h é conservador</i></label><input type="number" id="vida" value="4000" step="100" min="1"></div>
-      <div class="row"><label><b>Manutenção (¥/mês)</b><i>Bico, PTFE, placa PEI</i></label><input type="number" id="manut" value="700" step="50" min="0"></div>
+      <div class="row"><label><b>Manutenção (<span class="cur">¥</span>/mês)</b><i>Bico, PTFE, placa PEI</i></label><input type="number" id="manut" value="700" step="50" min="0"></div>
       <div class="row"><label><b>Horas impressas por mês</b><i>Máquina parada é máquina caríssima</i></label><input type="number" id="horasmes" value="100" step="10" min="1"></div>
     </div>
 
     <div class="card">
       <h2>3 · Energia</h2>
       <div class="row"><label><b>Consumo da impressora (W)</b><i>A1 ≈ 120–150 W · A1 mini ≈ 100 W medido</i></label><input type="number" id="watts" value="150" step="10" min="1"></div>
-      <div class="row"><label><b>Tarifa (¥/kWh)</b><i>TEPCO: 1ª faixa ¥29,80 · 3ª ¥40,49 + encargos</i></label><input type="number" id="tarifa" value="32" step="0.1" min="1"></div>
+      <div class="row"><label><b>Tarifa (<span class="cur">¥</span>/kWh)</b><i id="hint_tarifa">TEPCO: 1ª faixa ¥29,80 · 3ª ¥40,49 + encargos</i></label><input type="number" id="tarifa" value="32" step="0.1" min="0.001"></div>
     </div>
 
     <div class="card">
       <h2>4 · Seu trabalho</h2>
       <div class="row"><label><b>Tempo de manuseio (min)</b><i>Fatiar, trocar placa, montar, embalar, fotografar, anunciar</i></label><input type="number" id="minutos" value="20" step="1" min="0"></div>
-      <div class="row"><label><b>Seu valor por hora (¥)</b><i>Em ¥0 a peça parece lucrativa e você trabalhou de graça</i></label><input type="number" id="hora" value="1000" step="100" min="0"></div>
+      <div class="row"><label><b>Seu valor por hora (<span class="cur">¥</span>)</b><i id="hint_hora">Em ¥0 a peça parece lucrativa e você trabalhou de graça</i></label><input type="number" id="hora" value="1000" step="100" min="0"></div>
     </div>
 
     <div class="card">
       <h2>5 · Embalagem e envio</h2>
-      <div class="row"><label><b>Embalagem por peça (¥)</b><i>Saco, caixa, fita, bilhete</i></label><input type="number" id="embalagem" value="100" step="10" min="0"></div>
-      <div class="row"><label><b>Frete que EU pago (¥)</b><i>Deixe 0 se o comprador paga o envio</i></label><input type="number" id="frete" value="0" step="10" min="0"></div>
-      <div class="row wide"><label><b>Serviço de envio</b><i>Preenche o frete acima — depois ajuste se precisar</i></label>
+      <div class="row"><label><b>Embalagem por peça (<span class="cur">¥</span>)</b><i>Saco, caixa, fita, bilhete</i></label><input type="number" id="embalagem" value="100" step="10" min="0"></div>
+      <div class="row"><label><b>Frete que EU pago (<span class="cur">¥</span>)</b><i>Deixe 0 se o comprador paga o envio</i></label><input type="number" id="frete" value="0" step="10" min="0"></div>
+      <div class="row wide" id="row_envio"><label><b>Serviço de envio</b><i>Preenche o frete acima — depois ajuste se precisar</i></label>
         <select id="envio">
           <option value="0">Não pago frete</option>
           <option value="210">ネコポス ¥210</option>
@@ -156,7 +176,7 @@
           <option value="manual">Outro valor</option>
         </select>
       </div>
-      <p class="note">ネコポス só vai até <b>3 cm de espessura</b>. Acima disso cai no 宅急便コンパクト (¥450 + ¥70 da caixa), que custa <b>mais que o dobro</b> — a diferença é decidida por espessura, não por peso.</p>
+      <p class="note" id="envio_nota">ネコポス só vai até <b>3 cm de espessura</b>. Acima disso cai no 宅急便コンパクト (¥450 + ¥70 da caixa), que custa <b>mais que o dobro</b> — a diferença é decidida por espessura, não por peso.</p>
     </div>
 
     <div class="card">
@@ -173,10 +193,10 @@
         </select>
       </div>
       <div class="row"><label><b>Comissão da plataforma (%)</b><i>✓ = conferida na fonte oficial</i></label><input type="number" id="comissao" value="10" step="0.001" min="0" max="60"></div>
-      <div class="row"><label><b>Taxa fixa por venda (¥)</b><i>BOOTH cobra ¥45 · minne cobra ¥220 por transferência</i></label><input type="number" id="fixo" value="0" step="5" min="0"></div>
-      <div class="row"><label><b>Imposto sobre a venda (%)</b><i>免税事業者 (menzei jigyōsha — isento): deixe 0</i></label><input type="number" id="imposto" value="0" step="0.5" min="0" max="60"></div>
+      <div class="row"><label><b>Taxa fixa por venda (<span class="cur">¥</span>)</b><i>BOOTH cobra ¥45 · minne cobra ¥220 por transferência</i></label><input type="number" id="fixo" value="0" step="5" min="0"></div>
+      <div class="row"><label><b>Imposto sobre a venda (%)</b><i id="hint_imposto">免税事業者 (menzei jigyōsha — isento): deixe 0</i></label><input type="number" id="imposto" value="0" step="0.5" min="0" max="60"></div>
       <div class="row"><label><b>Margem desejada (%)</b><i>Margem é o que sobra DO PREÇO, não um acréscimo sobre o custo</i></label><input type="number" id="margem" value="40" step="1" min="0" max="90"></div>
-      <div class="row"><label><b>Arredondar para cima (¥)</b><i>Iene não tem centavo</i></label><input type="number" id="arred" value="10" step="10" min="1"></div>
+      <div class="row"><label><b>Arredondar para cima (<span class="cur">¥</span>)</b><i id="hint_arred">Iene não tem centavo</i></label><input type="number" id="arred" value="10" step="10" min="0.01"></div>
       <div class="aviso" id="o_aviso"></div>
     </div>
   </div>
@@ -213,7 +233,7 @@
  <div class="cta band">
    <div class="txt">
      <h3>Isto te ajudou?</h3>
-     <p>Este cálculo vem de um guia completo sobre custos de impressão 3D no Japão — com preço de filamento verificado loja por loja, tabela da Yamato, imposto e a depreciação destrinchada.</p>
+     <p>Este cálculo vem de um guia completo sobre custos de impressão 3D — com preço de filamento verificado loja por loja, tabela de envio, imposto e a depreciação destrinchada.</p>
    </div>
    <div class="acoes">
      <a class="p" href="https://ko-fi.com/s/ee352d758c" target="_blank" rel="noopener">Ver o kit e a planilha completa</a>
@@ -223,7 +243,7 @@
 
  <div class="links">
    <h2>Leia antes de fechar o preço</h2>
-   <p>Quatro páginas com os números conferidos na fonte — sem "10%" de blog:</p>
+   <p id="links_nota">Quatro páginas com os números conferidos na fonte — sem "10%" de blog:</p>
    <a href="guia/taxas-de-venda.html">As taxas de venda no Japão, conferidas <span>minne 10,659% · Creema 10,67% · Yahoo!フリマ 5% · BOOTH 5,6% + ¥45</span></a>
    <a href="guia/frete-de-peca-impressa.html">Frete de peça impressa: por que ¥210 vira ¥520 <span>A regra do 3辺合計 e o limite de 3 cm do ネコポス</span></a>
    <a href="guia/depreciacao-da-impressora.html">Depreciação da impressora: o custo por hora <span>Por que a máquina parada é a mais cara de todas</span></a>
@@ -233,19 +253,40 @@
 
 <footer>
   <div class="inner">
-    <p>Ferramenta gratuita. Os valores de exemplo são de um negócio real no Japão e servem apenas como ponto de partida — troque pelos seus.</p>
-    <p>Não é consultoria tributária. Confirme a sua situação com um 税理士 (zeirishi — contador fiscal habilitado).</p>
+    <p>Ferramenta gratuita. Os valores de exemplo servem apenas como ponto de partida — troque pelos seus.</p>
+    <p>Não é consultoria tributária. Confirme a sua situação com um contador habilitado no seu país.</p>
     <details>
       <summary>Fontes dos números desta página</summary>
-      <ul>
-        <li><b>minne — 10,659%</b> sobre obra + opções + frete: <a href="https://help.minne.com/hc/ja/articles/10456545234451" target="_blank" rel="noopener">help.minne.com</a></li>
-        <li><b>Creema — 10,67%</b> sobre obra + opções + embrulho + frete: <a href="https://www.creema.jp/page/creator/getting-started" target="_blank" rel="noopener">creema.jp</a></li>
-        <li><b>Yahoo!フリマ — 5%</b>: <a href="https://www.lycorp.co.jp/ja/news/release/020426/" target="_blank" rel="noopener">press release da LINEヤフー (19/05/2026)</a></li>
-        <li><b>BOOTH — 5,6% + ¥45</b>: <a href="https://booth.pixiv.help/hc/ja/articles/115004576874" target="_blank" rel="noopener">BOOTHヘルプセンター</a></li>
-        <li><b>Mercari — 10% ⚠ não confirmado</b>: a página oficial responde 403 (Cloudflare). Não use este número como verificado; confirme no app</li>
+      <p class="tese">A calculadora troca de país — e troca de fontes. Abaixo, o que está conferido (✓) e o que é ponto de partida (🟡).</p>
+
+      <ul id="fontes-jp">
+        <li><b>minne — 10,659%</b> sobre obra + opções + frete: <a href="https://help.minne.com/hc/ja/articles/10456545234451" target="_blank" rel="noopener">help.minne.com</a> ✓</li>
+        <li><b>Creema — 10,67%</b> sobre obra + opções + embrulho + frete: <a href="https://www.creema.jp/page/creator/getting-started" target="_blank" rel="noopener">creema.jp</a> ✓</li>
+        <li><b>Yahoo!フリマ — 5%</b>: <a href="https://www.lycorp.co.jp/ja/news/release/020426/" target="_blank" rel="noopener">press release da LINEヤフー (19/05/2026)</a> ✓</li>
+        <li><b>BOOTH — 5,6% + ¥45</b>: <a href="https://booth.pixiv.help/hc/ja/articles/115004576874" target="_blank" rel="noopener">BOOTHヘルプセンター</a> ✓</li>
+        <li><b>Mercari — 10% ⚠ não confirmado</b>: a página oficial responde 403 (Cloudflare). Confirme no app</li>
         <li><b>らくらくメルカリ便 — tabela de frete</b>: <a href="https://support.mercari-shops.com/hc/ja/articles/4406910093593" target="_blank" rel="noopener">メルカリShops ガイド</a> (ressalva: tabela do Mercari Shops)</li>
         <li><b>Tamanhos 宅急便 (3辺合計)</b>: <a href="https://www.kuronekoyamato.co.jp/ytc/customer/send/search/payment/size/" target="_blank" rel="noopener">Yamato</a></li>
+        <li><b>Filamento, máquina, manutenção, energia e mão de obra</b>: medidos e conferidos pelo autor no Japão (ver <span class="mono">produtos/../negocio/precificacao/PARAMETROS.md</span>) ✓</li>
         <li><b>Exercício de referência</b> (chega a ¥1.190): exemplo do capítulo 9 do livro de precificação do autor</li>
+      </ul>
+
+      <ul id="fontes-br" class="hide">
+        <li><b>Shopee — taxa fixa de R$ 4,50 por item</b> (itens até R$ 79,99, desde 01/10/2026): <a href="https://seller.shopee.com.br/edu/article/18483/como-funciona-a-politica-de-comissao-para-vendedores-da-shopee" target="_blank" rel="noopener">Central de Educação do Vendedor Shopee</a> ✓</li>
+        <li><b>Mercado Livre, Elo7 e o percentual da Shopee</b>: ⚠ <b>não verificados</b> — variam por categoria e tipo de anúncio. Confira na sua conta e digite a taxa; os valores da calculadora são só exemplo</li>
+        <li><b>Filamento, impressora, manutenção, mão de obra, embalagem e energia</b>: 🟡 <b>ponto de partida</b>, não cotação. Use o preço do seu rolo, da sua conta de luz e o valor da sua hora</li>
+        <li><b>Frete</b>: varia por CEP e por peso cúbico — cote no site dos Correios ou na plataforma de venda</li>
+        <li><b>Imposto</b>: MEI paga DAS fixo mensal (não é percentual); Simples Nacional é percentual. Não é consultoria — confirme com contador</li>
+        <li><b>Fórmula</b>: a mesma do livro (capítulo 9), agora em reais</li>
+      </ul>
+
+      <ul id="fontes-us" class="hide">
+        <li><b>Energia — 18,31 ¢/kWh</b> (média residencial dos EUA, jul/2026): <a href="https://www.eia.gov/electricity/monthly/epm_table_grapher.php?t=epmt_5_6_a" target="_blank" rel="noopener">EIA — Electric Power Monthly, Table 5.6.A</a> ✓</li>
+        <li><b>Etsy, Mercari US e eBay</b>: ⚠ <b>não verificados</b> — as centrais de ajuda bloqueiam acesso automático. Os valores (Etsy ≈ 9,5% + US$ 0,45; Mercari 10%; eBay ≈ 13,6% + US$ 0,30) são exemplo: confira e ajuste</li>
+        <li><b>Filamento, impressora, manutenção, mão de obra e embalagem</b>: 🟡 <b>ponto de partida</b>, não cotação</li>
+        <li><b>Sales tax</b>: varia por estado e, em marketplace, costuma ser recolhido pela plataforma. Deixe 0 se já estiver no preço</li>
+        <li><b>Frete</b>: varia por zona e peso; peso dimensional só entra em caixas grandes. Cote no USPS ou na plataforma</li>
+        <li><b>Fórmula</b>: a mesma do livro (capítulo 9), agora em dólar</li>
       </ul>
     </details>
     <p style="margin-top:14px">Atualizado em 19/10/2026.</p>
@@ -256,41 +297,226 @@
 (function(){
   var ids = ["peso","filamento","falha","tempo","impressora","vida","manut","horasmes",
              "watts","tarifa","minutos","hora","embalagem","frete","envio","plataforma",
-             "comissao","fixo","imposto","margem","arred"];
+             "comissao","fixo","imposto","margem","arred","pais"];
   var el = {};
   ids.forEach(function(i){ el[i] = document.getElementById(i); });
 
-  function n(i){ var v = parseFloat(el[i].value); return isFinite(v) ? v : 0; }
-  function yen(v){ return "¥" + Math.round(v).toLocaleString("ja-JP"); }
+  // ---------------------------------------------------------------- países
+  // Para acrescentar um país: copie um bloco, ajuste defaults/plataformas/envios,
+  // crie a <option> no <select id="pais"> e um <ul id="fontes-XX"> no rodapé.
+  var PAISES = {
+    jp: {
+      nome: "Japão", moeda: "¥", cod: "JPY", passoArred: 10, stepTarifa: 0.1,
+      plataformaPadrao: "mercari", envioPadrao: "0",
+      nota: "Valores de exemplo medidos num negócio real no Japão — e cada taxa de plataforma com a fonte no rodapé.",
+      defaults: { peso:24.36, filamento:2500, falha:15, tempo:2.62, impressora:68800,
+                  vida:4000, manut:700, horasmes:100, watts:150, tarifa:32,
+                  minutos:20, hora:1000, embalagem:100, frete:0,
+                  comissao:10, fixo:0, imposto:0, margem:40, arred:10 },
+      hints: {
+        filamento: "Use o topo da sua faixa, não o melhor preço",
+        tempo: "2h37m = 2,62 (minutos ÷ 60)",
+        tarifa: "TEPCO: 1ª faixa ¥29,80 · 3ª ¥40,49 + encargos",
+        imposto: "免税事業者 (menzei jigyōsha — isento): deixe 0",
+        arred: "Iene não tem centavo",
+        hora: "Em ¥0 a peça parece lucrativa e você trabalhou de graça"
+      },
+      notaEnvio: "ネコポス só vai até <b>3 cm de espessura</b>. Acima disso cai no 宅急便コンパクト (¥450 + ¥70 da caixa), que custa <b>mais que o dobro</b> — a diferença é decidida por espessura, não por peso.",
+      linksNota: "Quatro páginas com os números conferidos na fonte — sem \"10%\" de blog:",
+      plataformas: [
+        { id:"mercari", nome:"Mercari ⚠", c:10, f:0, nota:"⚠ Mercari: os 10% NÃO estão conferidos na fonte oficial — a central de ajuda bloqueia acesso automático (Cloudflare). Confirme no app antes de fechar preço." },
+        { id:"minne", nome:"minne ✓", c:10.659, f:0, nota:"minne: 10,659% sobre obra + opções + frete. O +¥220 de transferência é por remessa. Fonte: help.minne.com." },
+        { id:"creema", nome:"Creema ✓", c:10.67, f:0, nota:"Creema: 10,67% sobre obra + opções + embrulho + frete. Fonte: creema.jp." },
+        { id:"yahoo", nome:"Yahoo!フリマ ✓", c:5, f:0, nota:"Yahoo!フリマ: 5% (release da LINEヤフー, 19/05/2026). A campanha de 90 dias a 0% tem condição." },
+        { id:"booth", nome:"BOOTH ✓", c:5.6, f:45, nota:"BOOTH: (preço + frete) × 5,6% + ¥45 por venda. Fonte: BOOTHヘルプセンター." },
+        { id:"direto", nome:"Venda direta", c:0, f:0, nota:"" },
+        { id:"outro", nome:"Outra", c:null, f:null, nota:"" }
+      ],
+      envios: [
+        { v:"0", t:"Não pago frete" },
+        { v:"210", t:"ネコポス ¥210" },
+        { v:"520", t:"コンパクト ¥520" },
+        { v:"750", t:"メルカリ便 60 ¥750" },
+        { v:"850", t:"メルカリ便 80 ¥850" },
+        { v:"1050", t:"メルカリ便 100 ¥1.050" },
+        { v:"1200", t:"メルカリ便 120 ¥1.200" },
+        { v:"1450", t:"メルカリ便 140 ¥1.450" },
+        { v:"1700", t:"メルカリ便 160 ¥1.700" },
+        { v:"manual", t:"Outro valor" }
+      ]
+    },
 
-  // Taxas conferidas na fonte oficial (out/2026). c = comissão %, f = taxa fixa ¥.
-  var PLAT = {
-    direto:  { c:0,     f:0,  nota:"" },
-    minne:   { c:10.659, f:0,  nota:"minne: 10,659% sobre obra + opções + frete. O +¥220 de transferência é por remessa, não por peça — entrou na taxa fixa só se você ratear. Fonte: help.minne.com." },
-    creema:  { c:10.67, f:0,  nota:"Creema: 10,67% sobre obra + opções + embrulho + frete. Fonte: creema.jp." },
-    yahoo:   { c:5,     f:0,  nota:"Yahoo!フリマ: 5% (fonte: release da LINEヤフー, 19/05/2026). A campanha de 90 dias a 0% vale para quem vende 3+ itens nos primeiros 30 dias — tem condição." },
-    booth:   { c:5.6,   f:45, nota:"BOOTH: (preço + frete) × 5,6% + ¥45 por venda. Fonte: BOOTHヘルプセンター." },
-    mercari: { c:10,    f:0,  nota:"⚠ Mercari: os 10% NÃO estão conferidos na fonte oficial — a página da central de ajuda bloqueia acesso automático (Cloudflare). Confirme dentro do app antes de fechar preço." },
-    outro:   { c:null,  f:null, nota:"" }
+    br: {
+      nome: "Brasil", moeda: "R$", cod: "BRL", passoArred: 1, stepTarifa: 0.01,
+      plataformaPadrao: "direto", envioPadrao: "0",
+      nota: "Padrões do Brasil são ponto de partida (🟡). A comissão você digita: as taxas variam por categoria e por tipo de anúncio.",
+      defaults: { peso:30, filamento:120, falha:15, tempo:3, impressora:4500,
+                  vida:4000, manut:150, horasmes:80, watts:150, tarifa:0.95,
+                  minutos:25, hora:30, embalagem:8, frete:0,
+                  comissao:0, fixo:0, imposto:0, margem:40, arred:1 },
+      hints: {
+        filamento: "Use o preço do seu rolo no topo da faixa",
+        tempo: "3h = 3,00 (minutos ÷ 60)",
+        tarifa: "Use a tarifa da sua conta de luz (R$/kWh)",
+        imposto: "MEI paga DAS fixo; Simples é percentual. Confirme com contador",
+        arred: "Real tem centavo — arredondar para cima",
+        hora: "Em R$0 a peça parece lucrativa e você trabalhou de graça"
+      },
+      notaEnvio: "No Brasil o frete é por CEP e por <b>peso cúbico</b>: (comprimento × largura × altura) ÷ 6.000. Peça leve e volumosa paga pelo volume — <b>meça a caixa pronta</b>, não a peça. Cote no site dos Correios ou na plataforma.",
+      linksNota: "Os guias aprofundados abaixo são sobre o <b>Japão</b>. Brasil e EUA estão em produção.",
+      plataformas: [
+        { id:"direto", nome:"Venda direta (0%)", c:0, f:0, nota:"" },
+        { id:"mercadolivre", nome:"Mercado Livre ⚠", c:14, f:0, nota:"⚠ Mercado Livre: a taxa varia por categoria e por tipo de anúncio (Clássico/Premium). Os 14% NÃO foram conferidos na fonte oficial — confira na sua conta e ajuste." },
+        { id:"shopee", nome:"Shopee ⚠", c:14, f:4.5, nota:"Shopee: a taxa fixa de R$ 4,50 por item (até R$ 79,99) é oficial desde 01/10/2026. O percentual NÃO foi conferido — confira na Central do Vendedor." },
+        { id:"elo7", nome:"Elo7 ⚠", c:12, f:0, nota:"⚠ Elo7: taxa não conferida na fonte oficial. Confira antes de usar." },
+        { id:"outro", nome:"Outra", c:null, f:null, nota:"" }
+      ],
+      envios: []
+    },
+
+    us: {
+      nome: "Estados Unidos", moeda: "US$", cod: "USD", passoArred: 1, stepTarifa: 0.001,
+      plataformaPadrao: "direto", envioPadrao: "0",
+      nota: "A energia já vem com a média oficial da EIA. As taxas de plataforma estão marcadas ⚠: confira e ajuste na sua conta.",
+      defaults: { peso:30, filamento:25, falha:15, tempo:3, impressora:400,
+                  vida:4000, manut:10, horasmes:80, watts:150, tarifa:0.183,
+                  minutos:25, hora:25, embalagem:3, frete:0,
+                  comissao:0, fixo:0, imposto:0, margem:40, arred:1 },
+      hints: {
+        filamento: "Use o preço do seu rolo no topo da faixa",
+        tempo: "3h = 3,00 (minutos ÷ 60)",
+        tarifa: "Média residencial EUA: 18,31 ¢/kWh (EIA, jul/2026)",
+        imposto: "Sales tax varia por estado; marketplace costuma recolher. Deixe 0 se já estiver no preço",
+        arred: "Dólar tem centavo — arredondar para cima",
+        hora: "Em US$0 a peça parece lucrativa e você trabalhou de graça"
+      },
+      notaEnvio: "Nos EUA o frete varia por zona e peso. O <b>peso dimensional</b> só entra em caixas grandes (acima de ~1 pé cúbico no Priority Mail) — em peça pequena, vale o peso real. Cote no USPS ou na plataforma.",
+      linksNota: "Os guias aprofundados abaixo são sobre o <b>Japão</b>. Brasil e EUA estão em produção.",
+      plataformas: [
+        { id:"direto", nome:"Venda direta (0%)", c:0, f:0, nota:"" },
+        { id:"etsy", nome:"Etsy ⚠", c:9.5, f:0.45, nota:"Etsy: soma de transação (6,5%) + processamento (3% + US$ 0,25) + listagem (US$ 0,20). ⚠ Não conferido na fonte oficial (bloqueio anti-bot) — confira e ajuste." },
+        { id:"mercari", nome:"Mercari US ⚠", c:10, f:0, nota:"⚠ Mercari (EUA): taxa não conferida na fonte oficial. Confira na central de ajuda." },
+        { id:"ebay", nome:"eBay ⚠", c:13.6, f:0.3, nota:"eBay: ~13,6% na maioria das categorias + US$ 0,30. ⚠ Não conferido — o site bloqueia acesso automático." },
+        { id:"outro", nome:"Outra", c:null, f:null, nota:"" }
+      ],
+      envios: []
+    }
   };
 
+  var paisAtual = "jp";
+  var memoria = {};   // guarda os valores digitados em cada país
+
+  function n(i){ var v = parseFloat(el[i].value); return isFinite(v) ? v : 0; }
+  function txt(id, s){ var e = document.getElementById(id); if (e) e.textContent = s; }
+  function html(id, s){ var e = document.getElementById(id); if (e) e.innerHTML = s; }
+
+  function fmt(v){
+    if (!isFinite(v)) return "—";
+    var cod = PAISES[paisAtual].cod;
+    if (cod === "JPY") return "¥" + Math.round(v).toLocaleString("ja-JP");
+    // página em português: real e dólar com a mesma convenção de número (1.190,00)
+    var s = v.toLocaleString("pt-BR", { minimumFractionDigits:2, maximumFractionDigits:2 });
+    return (cod === "BRL" ? "R$ " : "US$ ") + s;
+  }
+
+  function acharPlataforma(){
+    var lista = PAISES[paisAtual].plataformas;
+    for (var i = 0; i < lista.length; i++) {
+      if (lista[i].id === el.plataforma.value) return lista[i];
+    }
+    return null;
+  }
+
   function aviso(){
-    var p = PLAT[el.plataforma.value];
+    var pl = acharPlataforma();
     var box = document.getElementById("o_aviso");
-    box.textContent = p ? p.nota : "";
-    box.className = "aviso" + (p && p.nota ? "" : " hide");
+    box.textContent = pl && pl.nota ? pl.nota : "";
+    box.className = "aviso" + (pl && pl.nota ? "" : " hide");
   }
 
   function preset(){
-    var p = PLAT[el.plataforma.value];
-    if (p && p.c !== null) { el.comissao.value = String(p.c); el.fixo.value = String(p.f); }
+    var pl = acharPlataforma();
+    if (pl && pl.c !== null) { el.comissao.value = String(pl.c); el.fixo.value = String(pl.f); }
     aviso();
     calc();
   }
 
   function envio(){
     var v = el.envio.value;
-    if (v !== "manual") el.frete.value = v;
+    if (v !== "manual" && v !== "") el.frete.value = v;
+    calc();
+  }
+
+  function montarPlataformas(P, selecionada){
+    var s = el.plataforma;
+    if ("innerHTML" in s) {
+      var partes = [];
+      for (var i = 0; i < P.plataformas.length; i++) {
+        partes.push('<option value="' + P.plataformas[i].id + '">' + P.plataformas[i].nome + '</option>');
+      }
+      s.innerHTML = partes.join("");
+    }
+    s.value = selecionada || P.plataformas[0].id;
+  }
+
+  function montarEnvios(P, selecionado){
+    var s = el.envio;
+    if ("innerHTML" in s) {
+      var partes = [];
+      for (var i = 0; i < P.envios.length; i++) {
+        partes.push('<option value="' + P.envios[i].v + '">' + P.envios[i].t + '</option>');
+      }
+      s.innerHTML = partes.join("");
+    }
+    if (P.envios.length) s.value = selecionado || P.envios[0].v;
+    var linha = document.getElementById("row_envio");
+    if (linha) linha.className = P.envios.length ? "row wide" : "row wide hide";
+  }
+
+  function atualizarMoeda(){
+    var moeda = PAISES[paisAtual].moeda;
+    var lista = document.getElementsByClassName ? document.getElementsByClassName("cur") : [];
+    for (var i = 0; i < lista.length; i++) lista[i].textContent = moeda;
+  }
+
+  function atualizarTextos(P){
+    txt("hint_filamento", P.hints.filamento);
+    txt("hint_tempo", P.hints.tempo);
+    txt("hint_tarifa", P.hints.tarifa);
+    txt("hint_imposto", P.hints.imposto);
+    txt("hint_arred", P.hints.arred);
+    txt("hint_hora", P.hints.hora);
+    html("envio_nota", P.notaEnvio);
+    html("links_nota", P.linksNota);
+    txt("pais_nota", P.nota);
+    ["jp","br","us"].forEach(function(c){
+      var ul = document.getElementById("fontes-" + c);
+      if (ul) ul.className = (c === paisAtual) ? "" : "hide";
+    });
+  }
+
+  function salvarEstado(){
+    var st = {};
+    ids.forEach(function(k){ if (k !== "pais") st[k] = el[k].value; });
+    memoria[paisAtual] = st;
+  }
+
+  function montarPais(code, restaurar){
+    if (!PAISES[code]) code = "jp";
+    paisAtual = code;
+    var P = PAISES[code];
+    var st = (restaurar && memoria[code]) ? memoria[code] : P.defaults;
+
+    for (var k in P.defaults) {
+      if (st[k] !== undefined && el[k]) el[k].value = String(st[k]);
+    }
+    el.arred.step = P.passoArred;
+    el.tarifa.step = P.stepTarifa;
+    montarPlataformas(P, st.plataforma || P.plataformaPadrao);
+    montarEnvios(P, st.envio || P.envioPadrao);
+    atualizarMoeda();
+    atualizarTextos(P);
+    aviso();
     calc();
   }
 
@@ -328,39 +554,39 @@
 
     var den = 1 - mar - com - imp;
     var bruto = den > 0 ? custo / den : NaN;
-    var passo = Math.max(1, n("arred"));
-    var preco = isFinite(bruto) ? Math.ceil(bruto/passo)*passo : NaN;
-    var pisoR = isFinite(piso) ? Math.ceil(piso/passo)*passo : NaN;
+    var passo = Math.max(0.01, n("arred"));
+    var preco = isFinite(bruto) ? Math.ceil(bruto/passo - 1e-9)*passo : NaN;
+    var pisoR = isFinite(piso) ? Math.ceil(piso/passo - 1e-9)*passo : NaN;
 
     var comissaoYen = isFinite(preco) ? preco * (com + imp) : NaN;
 
     var out = {
-      o_mat: yen(materialF), o_maq: yen(maquinaF), o_ene: yen(energiaF),
-      o_tra: yen(trabalho), o_emb: yen(embalagem), o_frete: yen(frete),
-      o_fixo: yen(fixo), o_custo: yen(custo)
+      o_mat: fmt(materialF), o_maq: fmt(maquinaF), o_ene: fmt(energiaF),
+      o_tra: fmt(trabalho), o_emb: fmt(embalagem), o_frete: fmt(frete),
+      o_fixo: fmt(fixo), o_custo: fmt(custo)
     };
     Object.keys(out).forEach(function(k){ document.getElementById(k).textContent = out[k]; });
 
-    document.getElementById("o_piso").textContent = isFinite(pisoR) ? yen(pisoR) : "—";
+    document.getElementById("o_piso").textContent = isFinite(pisoR) ? fmt(pisoR) : "—";
 
     var precoEl = document.getElementById("o_preco");
-    precoEl.textContent = isFinite(preco) ? yen(preco) : "—";
+    precoEl.textContent = isFinite(preco) ? fmt(preco) : "—";
     precoEl.className = "big" + (isFinite(preco) ? "" : " piso");
 
-    document.getElementById("o_com").textContent = isFinite(comissaoYen) ? yen(comissaoYen) : "—";
+    document.getElementById("o_com").textContent = isFinite(comissaoYen) ? fmt(comissaoYen) : "—";
 
     var marg = isFinite(preco) && preco > 0 ? (preco*(1-com-imp) - custo)/preco : NaN;
     document.getElementById("o_marg").textContent = isFinite(marg) ? (marg*100).toFixed(1) + "%" : "—";
 
     var desc = (isFinite(preco) && isFinite(pisoR)) ? preco - pisoR : NaN;
-    document.getElementById("o_desc").textContent = isFinite(desc) ? yen(desc) : "—";
+    document.getElementById("o_desc").textContent = isFinite(desc) ? fmt(desc) : "—";
 
     // se o denominador estourou, explica em vez de mostrar travessao
     var frac = document.getElementById("o_frac");
     if (!(den > 0)) {
       frac.textContent = "⚠️ Margem + comissão + imposto passam de 100%. Não existe preço que feche essa conta — reduza a margem ou as taxas.";
     } else if (isFinite(preco) && frete/preco > 0.20) {
-      frac.textContent = "💡 O frete é " + Math.round(frete/preco*100) + "% do preço. Acima de 20% a peça viaja caro: reduza a caixa (é a espessura que define o tamanho) antes de reduzir a margem.";
+      frac.textContent = "💡 O frete é " + Math.round(frete/preco*100) + "% do preço. Acima de 20% a peça viaja caro: reduza a caixa antes de reduzir a margem.";
     } else if (custo > 0 && trabalho/custo > 0.45) {
       frac.textContent = "💡 Seu trabalho é " + Math.round(trabalho/custo*100) + "% do custo. É o item que quase ninguém coloca na conta.";
     } else {
@@ -369,14 +595,26 @@
   }
 
   ids.forEach(function(i){
-    el[i].addEventListener("input", function(){ if (i === "plataforma" || i === "envio") return; calc(); });
-    el[i].addEventListener("change", calc);
+    el[i].addEventListener("input", function(){
+      if (i === "plataforma" || i === "envio" || i === "pais") return;
+      calc();
+    });
+    el[i].addEventListener("change", function(){
+      if (i === "pais") return;
+      calc();
+    });
   });
   el.plataforma.addEventListener("change", preset);
   el.envio.addEventListener("change", envio);
+  el.pais.addEventListener("change", function(){
+    salvarEstado();
+    montarPais(el.pais.value, true);
+  });
 
-  aviso();
-  calc();
+  // inicio: respeita o país que o HTML marcar como selecionado (ou Japão)
+  var inicial = PAISES[el.pais.value] ? el.pais.value : "jp";
+  el.pais.value = inicial;
+  montarPais(inicial, false);
 })();
 </script>
 </body>

@@ -1,6 +1,6 @@
-// Test harness: runs the calculator's own inline script with a minimal DOM shim,
-// then checks the numbers against the worked example printed in the book (chapter 9)
-// and against the shipping / platform-fee features added in this session.
+// Test harness: runs the calculator's own inline script with a minimal DOM shim.
+// Confere o exemplo do livro (capítulo 9) e as funções novas: frete, taxa fixa,
+// presets de plataforma e o motor de países (Japão, Brasil, EUA).
 //
 //   node test_calculadora.mjs
 //
@@ -13,7 +13,7 @@ import { dirname, join } from "node:path";
 const here = dirname(fileURLToPath(import.meta.url));
 const html = readFileSync(join(here, "index.html"), "utf8");
 
-// --- pull the default values straight out of the form
+// --- pull the default values straight out of the form (são os do Japão)
 const defaults = {};
 for (const m of html.matchAll(/id="([a-z]+)"\s+value="([0-9.]+)"/g)) {
   defaults[m[1]] = m[2];
@@ -31,7 +31,7 @@ const script = html.match(/<script>([\s\S]*?)<\/script>/)[1];
 //     otherwise getElementById returns a throwaway node and state is lost.
 const FORM = ["peso","filamento","falha","tempo","impressora","vida","manut","horasmes",
               "watts","tarifa","minutos","hora","embalagem","frete","envio","plataforma",
-              "comissao","fixo","imposto","margem","arred"];
+              "comissao","fixo","imposto","margem","arred","pais"];
 const OUT = ["o_mat","o_maq","o_ene","o_tra","o_emb","o_frete","o_fixo","o_com","o_custo",
              "o_piso","o_preco","o_marg","o_desc","o_frac","o_aviso"];
 
@@ -41,7 +41,10 @@ function makeNode(id) {
 }
 
 const nodes = new Map([...FORM, ...OUT].map((id) => [id, makeNode(id)]));
-globalThis.document = { getElementById: (id) => nodes.get(id) ?? makeNode(id) };
+globalThis.document = {
+  getElementById: (id) => nodes.get(id) ?? makeNode(id),
+  getElementsByClassName: () => [],
+};
 
 // --- run the shipped script
 new Function(script)();
@@ -51,12 +54,13 @@ const get  = (id) => nodes.get(id).textContent;
 const val  = (id) => nodes.get(id).value;
 const set  = (obj) => { for (const [k, v] of Object.entries(obj)) nodes.get(k).value = String(v); };
 const fire = (id) => nodes.get(id)._handlers.forEach((fn) => fn());
+const irPara = (pais) => { nodes.get("pais").value = pais; fire("pais"); };
 
 let fail = 0;
 const check = (label, got, want) => {
   const ok = got === want;
   if (!ok) fail++;
-  console.log(`${ok ? "PASS" : "FAIL"}  ${label.padEnd(42)} obtido=${String(got).padEnd(10)} esperado=${want}`);
+  console.log(`${ok ? "PASS" : "FAIL"}  ${label.padEnd(44)} obtido=${String(got).padEnd(12)} esperado=${want}`);
 };
 const checkTrue = (label, cond, detail = "") => {
   if (!cond) fail++;
@@ -70,9 +74,10 @@ const LIVRO = {
   minutos: 20, hora: 1000, embalagem: 100, frete: 0, fixo: 0,
   comissao: 10, imposto: 0, margem: 40, arred: 10,
 };
+irPara("jp");
 set(LIVRO); fire("peso");
 
-console.log("— Exemplo do livro (capítulo 9) —");
+console.log("— Japão: exemplo do livro (capítulo 9) —");
 check("custo total",    get("o_custo"), "¥591");
 check("preço sugerido", get("o_preco"), "¥1,190");
 check("preço mínimo",   get("o_piso"),  "¥660");
@@ -94,7 +99,7 @@ checkTrue("falha=0 altera a energia", get("o_ene") !== e0, `${e0} -> ${get("o_en
 checkTrue("falha=0 NÃO altera o trabalho", get("o_tra") === t0, t0);
 
 // --- 3) frete entra no custo e NÃO leva multiplicador de falha
-console.log("\n— Frete —");
+console.log("\n— Japão: frete —");
 set({ ...LIVRO, frete: 520 }); fire("peso");
 check("frete na linha própria", get("o_frete"), "¥520");
 check("material não muda com o frete", get("o_mat"), "¥70");
@@ -111,7 +116,7 @@ nodes.get("envio").value = "1700"; fire("envio");
 checkTrue("frete > 20% do preço gera o aviso", get("o_frac").includes("viaja caro"), get("o_frac"));
 
 // --- 4) presets de plataforma (taxas conferidas na fonte)
-console.log("\n— Plataformas —");
+console.log("\n— Japão: plataformas —");
 set(LIVRO); fire("peso");
 nodes.get("plataforma").value = "minne"; fire("plataforma");
 check("minne define a comissão", val("comissao"), "10.659");
@@ -129,7 +134,7 @@ check("BOOTH define a taxa fixa", val("fixo"), "45");
 
 nodes.get("plataforma").value = "mercari"; fire("plataforma");
 check("Mercari volta para 10%", val("comissao"), "10");
-checkTrue("Mercari avisa que não está verificado", get("o_aviso").includes("NÃO estão conferidos"), get("o_aviso").slice(0, 60));
+checkTrue("Mercari avisa que não está verificado", get("o_aviso").includes("NÃO estão conferidos"));
 
 // "outra" não apaga o que o usuário digitou
 nodes.get("comissao").value = "7"; fire("comissao");
@@ -139,7 +144,7 @@ check("plataforma 'outra' preserva a comissão digitada", val("comissao"), "7");
 // --- 5) denominador estourado vira explicação, não número
 console.log("\n— Guarda do denominador —");
 set({ ...LIVRO, margem: 95, comissao: 10 }); fire("peso");
-checkTrue("margem+comissão > 100% avisa", get("o_frac").includes("passam de 100"), get("o_frac"));
+checkTrue("margem+comissão > 100% avisa", get("o_frac").includes("passam de 100"));
 check("sem preço quando a conta não fecha", get("o_preco"), "—");
 
 // --- 6) arredondamento sempre para cima, em múltiplos do passo
@@ -147,7 +152,48 @@ console.log("\n— Arredondamento —");
 set({ ...LIVRO, arred: 50 }); fire("peso");
 checkTrue("preço múltiplo de ¥50", Number(get("o_preco").replace(/[^\d]/g, "")) % 50 === 0, get("o_preco"));
 
-// --- 7) a página publicada carrega as fontes e os guias
+// --- 7) motor de países
+console.log("\n— Brasil —");
+nodes.get("peso").value = "77"; fire("peso");   // edição do usuário que deve sobreviver à troca
+irPara("br");
+check("peso padrão do Brasil",   val("peso"), "30");
+check("filamento padrão (R$/kg)", val("filamento"), "120");
+check("tarifa padrão (R$/kWh)",  val("tarifa"), "0.95");
+check("custo total em reais",    get("o_custo"), "R$ 35,48");
+check("preço mínimo em reais",   get("o_piso"),  "R$ 36,00");
+check("preço sugerido em reais", get("o_preco"), "R$ 60,00");
+check("margem real",             get("o_marg"),  "40.9%");
+
+nodes.get("plataforma").value = "shopee"; fire("plataforma");
+check("Shopee traz a taxa fixa oficial", val("fixo"), "4.5");
+checkTrue("Shopee avisa que o percentual não foi conferido", get("o_aviso").includes("NÃO foi conferido"));
+
+nodes.get("plataforma").value = "mercadolivre"; fire("plataforma");
+check("Mercado Livre define a comissão", val("comissao"), "14");
+checkTrue("Mercado Livre traz o aviso", get("o_aviso").includes("Mercado Livre"));
+
+console.log("\n— Estados Unidos —");
+irPara("us");
+check("peso padrão dos EUA",       val("peso"), "30");
+check("filamento padrão (US$/kg)", val("filamento"), "25");
+check("energia: média oficial da EIA", val("tarifa"), "0.183");
+check("custo total em dólar",      get("o_custo"), "US$ 15,15");
+check("preço mínimo em dólar",     get("o_piso"),  "US$ 16,00");
+check("preço sugerido em dólar",   get("o_preco"), "US$ 26,00");
+check("margem real",               get("o_marg"),  "41.7%");
+
+nodes.get("plataforma").value = "etsy"; fire("plataforma");
+check("Etsy define a comissão", val("comissao"), "9.5");
+check("Etsy define a taxa fixa", val("fixo"), "0.45");
+
+console.log("\n— Voltar para o Japão restaura o que foi digitado —");
+irPara("jp");
+check("peso editado pelo usuário restaurado", val("peso"), "77");
+check("arredondamento restaurado", val("arred"), "50");
+check("comissão restaurada", val("comissao"), "10");
+checkTrue("resultado volta em iene", get("o_preco").startsWith("¥"), get("o_preco"));
+
+// --- 8) a página publicada carrega as fontes e os guias
 console.log("\n— Higiene da página publicada —");
 checkTrue("sem requisição externa de CSS/JS",
   !/<link[^>]+rel="stylesheet"/i.test(html) &&
@@ -155,6 +201,11 @@ checkTrue("sem requisição externa de CSS/JS",
   !/@import|url\(\s*["']?https?:/i.test(html));
 checkTrue("tem seção de fontes", html.includes("Fontes dos números desta página"));
 checkTrue("tem canonical", html.includes('rel="canonical"'));
+checkTrue("tem os três países no seletor",
+  ["jp","br","us"].every((p) => html.includes(`value="${p}"`)));
+checkTrue("tem blocos de fonte por país",
+  ["jp","br","us"].every((p) => html.includes(`id="fontes-${p}"`)));
+checkTrue("tem teste de sticky", html.includes("row_envio"));
 // o CTA já foi parar embaixo do painel sticky uma vez: ele tem que ficar FORA da grade
 checkTrue("CTA em banda própria, fora da coluna do resultado",
   html.includes('class="cta band"') && html.includes('class="aside"') && !html.includes('<div class="cta">'));
