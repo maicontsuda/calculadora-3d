@@ -1,8 +1,11 @@
-# Calculadora de Precificação — Impressão 3D no Japão
+# Calculadora de Precificação — Impressão 3D (Japão, Brasil e EUA)
 
 Ferramenta gratuita, sem cadastro. Calcula custo real, preço mínimo e preço sugerido
-de uma peça impressa em 3D, em iene: material, depreciação da máquina, energia,
-mão de obra, taxa de falha, embalagem, **frete**, **comissão da plataforma** e imposto.
+de uma peça impressa em 3D, **na moeda do país escolhido**: material, depreciação da máquina,
+energia, mão de obra, taxa de falha, embalagem, **frete**, **comissão da plataforma** e imposto.
+
+Países: **Japão (¥)**, **Brasil (R$)** e **Estados Unidos (US$)** — cada um com parâmetros,
+plataformas, regra de envio e bloco de fontes próprios. Trocar de país não perde o que você digitou.
 
 Publicado em <https://maicontsuda.github.io/calculadora-3d/>.
 
